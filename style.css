@@ -1,0 +1,24 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+main {
+    display: grid;
+    height: 100vh;
+    grid-template-columns: 1fr 4fr;
+    grid-template-rows: 1fr 10fr;
+}
+header {
+    grid-column: 1/3;
+    text-align: center;
+    background-color: aqua;
+}
+.sidebar {
+    grid-row: 2/3;
+    text-align: center;
+    background-color: cadetblue;
+}
+
+.content {
+    padding: 2rem;
+}
