@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <script src="main.js"></script>
+    <script src="main.js" defer></script>
     <title>Document</title>
 </head>
 <body>
@@ -18,9 +18,39 @@
             <h2>Home</h2>
             <hr>
             <h2>All Task</h2>
+            
+            <div class="projects_section">
+                <hr>
+                <h2>Projects</h2>
+                <button id="showProjectForm">Add Project</button>
+                <dialog id="project_dialog">
+                    <form action="#" id="project_form">
+                        <input type ="text" id ="projectName" placeholder="Name" required maxlength="75">
+                        <div>
+                            <button id="cancel_project">Cancel</button>
+                            <button type="submit" form="project_form">Add</button>
+                        </div>
+
+                    </form>
+                </dialog>
+                <div class="projectList"></div>
+            </div>
         </div>
         <div class="content">
             <p>ALL TASKS</p>
+            <button id="showTaskForm">Add Task</button>
+            <dialog id="task_dialog">
+                <form action="#" id="task_form">
+                    <input type ="text" id ="title" placeholder="Title" required maxlength="75">
+                    <input type ="text" id="description" placeholder="Description" required maxlength="100">
+                    <input type ="text" id="dueDate" placeholder="dueDate" required>
+                    <input type ="text" id="priority" placeholder="Priority" required>
+                    <div>
+                        <button id="cancel_task">Cancel</button>
+                        <button type="submit" form="task_form">Add</button>
+                    </div>
+                </form>
+            </dialog>
         </div>
     </main>
 </body>

@@ -22,3 +22,9 @@ header {
 .content {
     padding: 2rem;
 }
+
+
+.projects_section {
+    margin-top: 10rem;
+    cursor: pointer;
+}
