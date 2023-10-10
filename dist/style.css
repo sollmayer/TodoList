@@ -28,3 +28,11 @@ header {
     margin-top: 10rem;
     cursor: pointer;
 }
+
+.projectList div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 3rem;
+    border: 1px solid black;
+}
