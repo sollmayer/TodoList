@@ -1,3 +1,5 @@
+import { currentSection } from "./displayController";
+import { addTaskToProject } from "./project";
 export class Task {
     constructor(title, description, dueDate,priority, project){
         this.title = title;
@@ -16,17 +18,27 @@ export class Task {
     }
 }
 
+let taskList = [...JSON.parse(localStorage.getItem('TaskList')) || []] ;
+
+
 export const createTask = (title, description, dueDate,priority, project) => {
     return new Task(title, description, dueDate,priority,project);
 }
 
-export const addTask = (tasks_arr) => {
+export const getTasks = () => {
+    return JSON.parse(localStorage.getItem('TaskList')) || [];
+}
+
+export const addTask = () => {
     const title = document.querySelector('#title').value;
     const description = document.querySelector('#description').value;
     const dueDate = document.querySelector('#dueDate').value;
     const priority = document.querySelector('#priority').value;
 
-    
-    tasks_arr.push(createTask(title,description,dueDate,priority, getProject()));
+    let newTask = createTask(title,description,dueDate,priority, getProjectForTask())
+    taskList.push(newTask);
+    localStorage.setItem("TaskList", JSON.stringify(taskList));
+    addTaskToProject(currentSection, newTask)
     return {title, description, dueDate,priority}
 }
+
