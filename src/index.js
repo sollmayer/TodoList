@@ -1,4 +1,5 @@
 import { addListeners } from "./domController";
-import { displayProjects } from "./displayController";
+import { displayProjects, displayTasks } from "./displayController";
 addListeners();
-displayProjects()
+displayProjects();
+displayTasks();
