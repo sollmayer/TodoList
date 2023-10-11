@@ -42,3 +42,7 @@ export const addTask = () => {
     return {title, description, dueDate,priority}
 }
 
+const getProjectForTask = () => {
+    console.log('CurrentSectionForTask: ', currentSection);
+    return currentSection;
+}
