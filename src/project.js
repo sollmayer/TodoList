@@ -33,6 +33,13 @@ export const deleteProject = (projectTitle) => {
     displayProjects();
 }
 
+export const displayProjectTasks = (project) => {
+    project.taskList.forEach(task => {
+            // displayTask(task)
+            console.log(task)
+    })
+}
+
 export const addTaskToProject = (currentSection, task) => {
     projectList = projectList.map(project => {
         if(project.title === currentSection) {
