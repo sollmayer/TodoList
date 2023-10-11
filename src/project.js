@@ -6,9 +6,7 @@ export class Project {
         this.taskList = [];
     }
     
-    addTaskToProject = (task) => {
-        this.taskList.push(task);
-    }
+    // addTaskToProject = (task) => this.taskList.push(task);
 
 }
 
@@ -33,4 +31,14 @@ export const deleteProject = (projectTitle) => {
     localStorage.setItem('ProjectList', JSON.stringify(projectList));
     clearProjectList();
     displayProjects();
+}
+
+export const addTaskToProject = (currentSection, task) => {
+    projectList = projectList.map(project => {
+        if(project.title === currentSection) {
+            project.taskList.push(task);
+        }
+        return project;
+    });
+    localStorage.setItem('ProjectList', JSON.stringify(projectList));
 }
