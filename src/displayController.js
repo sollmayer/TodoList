@@ -1,6 +1,6 @@
-import { getProjects } from "./project";
-import { addProjectToPage } from "./domController";
-
+import { getProjects, displayProjectTasks } from "./project";
+import { addProjectToPage, addTaskToPage } from "./domController";
+import { getTasks } from "./task";
 
 export const displayProjects = () => {
     const projects = getProjects();
@@ -11,3 +11,11 @@ export const displayProjects = () => {
     })
     // document.querySelector('.projectList').appendChild(projects)
 }
+export const displayTasks = () => {
+    const tasks = getTasks();
+    console.log("tasks",tasks)
+    tasks.forEach(task => {
+        document.querySelector('.taskList').appendChild(addTaskToPage(task))
+    })
+}
+
