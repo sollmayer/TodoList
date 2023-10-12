@@ -1,5 +1,5 @@
 import { displayProjects } from "./displayController";
-import { clearProjectList } from "./domController";
+import { clearProjectList, addTaskToPage, appendTask } from "./domController";
 export class Project {
     constructor(title){
         this.title = title;
@@ -35,8 +35,8 @@ export const deleteProject = (projectTitle) => {
 
 export const displayProjectTasks = (project) => {
     project.taskList.forEach(task => {
-            // displayTask(task)
             console.log(task)
+            appendTask(addTaskToPage(task))
     })
 }
 
