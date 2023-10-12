@@ -19,3 +19,16 @@ export const displayTasks = () => {
     })
 }
 
+export let currentSection = "All Tasks";
+export const displayCurrentSection = (className) => {
+    const selectedProject = getProjects().filter(project => project.title == className.split('-')[1])[0] || [];
+    currentSection = selectedProject.title || "All Tasks";
+    document.querySelector('#taskSection').textContent = `Current section: ${currentSection}`
+    console.log("selectedProject", selectedProject)
+
+    if(selectedProject.title) {
+        displayProjectTasks(selectedProject);
+    }else {
+        // displayTasks();
+    }
+}
