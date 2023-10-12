@@ -1,5 +1,5 @@
 import { currentSection } from "./displayController";
-import { addTaskToProject } from "./project";
+import { addTaskToProject, deleteTaskFromProject } from "./project";
 export class Task {
     constructor(title, description, dueDate,priority, project){
         this.title = title;
@@ -39,10 +39,26 @@ export const addTask = () => {
     taskList.push(newTask);
     localStorage.setItem("TaskList", JSON.stringify(taskList));
     addTaskToProject(currentSection, newTask)
+    
     return {title, description, dueDate,priority}
 }
 
 const getProjectForTask = () => {
     console.log('CurrentSectionForTask: ', currentSection);
     return currentSection;
+}
+
+export const deleteTask = (taskTitle) => {
+    console.log('deleteTask',taskTitle);
+    const {project: taskProject} = taskList.filter(task => task.title === taskTitle)[0];
+
+    taskList = taskList.filter(task => task.title !== taskTitle);
+    localStorage.setItem("TaskList", JSON.stringify(taskList));
+    
+    document.querySelector('.taskList').removeChild(document.querySelector(`.task-${taskTitle}`))
+    
+    if(taskProject != "All Tasks") {
+        console.log("taskProject",taskProject)
+        deleteTaskFromProject(taskProject,taskTitle)
+    };
 }
