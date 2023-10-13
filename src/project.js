@@ -59,3 +59,14 @@ export const addTaskToProject = (currentSection, task) => {
     localStorage.setItem('ProjectList', JSON.stringify(projectList));
 }
 
+export const deleteTaskFromProject = (projectName, taskTitle) => {
+    console.log('deleteTaskFromProject', projectName);
+    projectList = projectList.map(project => {
+        if(projectName == project.title){
+            project.taskList = project.taskList.filter((task)=> task.title != taskTitle);
+        }
+        return project;
+    });
+    localStorage.setItem('ProjectList', JSON.stringify(projectList));
+}
+
