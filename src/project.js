@@ -70,3 +70,14 @@ export const deleteTaskFromProject = (projectName, taskTitle) => {
     localStorage.setItem('ProjectList', JSON.stringify(projectList));
 }
 
+export const updateProjectTaskList = (projectName,taskTitle) => {
+    projectList = projectList.map(project => {
+        if(projectName === project.title){
+            project.taskList.forEach(task => {
+                if(taskTitle === task.title) task.important = !task.important;
+            })
+        }
+        return project;
+    });
+    localStorage.setItem('ProjectList', JSON.stringify(projectList));
+}
