@@ -1,5 +1,5 @@
 import { currentSection } from "./displayController";
-import { addTaskToProject, deleteTaskFromProject } from "./project";
+import { addTaskToProject, deleteTaskFromProject, updateProjectTaskList } from "./project";
 export class Task {
     constructor(title, description, dueDate,priority, project){
         this.title = title;
@@ -7,6 +7,7 @@ export class Task {
         this.dueDate = dueDate;
         this.priority = priority;
         this.project = project;
+        this.important = false;
     }
 
     getTitle = () => {
@@ -38,9 +39,10 @@ export const addTask = () => {
     let newTask = createTask(title,description,dueDate,priority, getProjectForTask())
     taskList.push(newTask);
     localStorage.setItem("TaskList", JSON.stringify(taskList));
+
     addTaskToProject(currentSection, newTask)
     
-    return {title, description, dueDate,priority}
+    return {title, description, dueDate,priority, important:false}
 }
 
 const getProjectForTask = () => {
@@ -61,4 +63,17 @@ export const deleteTask = (taskTitle) => {
         console.log("taskProject",taskProject)
         deleteTaskFromProject(taskProject,taskTitle)
     };
+}
+
+export const toggleTaskImportant = (title) => {
+    let tasks = getTasks().map(task => {
+        if(task.title == title) {
+            task.important = !task.important;
+            // toggleTaskImportantProject(task.project)
+            updateProjectTaskList(task.project, title);
+        }
+        console.log(task);
+        return task;
+    })
+    localStorage.setItem("TaskList", JSON.stringify(tasks));
 }
