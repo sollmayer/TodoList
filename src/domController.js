@@ -1,6 +1,6 @@
 import { createTask, addTask, deleteTask, toggleTaskImportant } from "./task";
 import { createProject, populateProjectList, deleteProject } from "./project";
-import { displayProjects, displayCurrentSection, currentSection, displayTasks } from "./displayController";
+import { displayProjects, displayCurrentSection, currentSection, displayTasks, displayImportant } from "./displayController";
 
 const showTaskForm = document.querySelector('#showTaskForm');
 const showProjectForm = document.querySelector('#showProjectForm');
@@ -15,6 +15,7 @@ const taskForm = document.querySelector('#task_form');
 const projectForm = document.querySelector('#project_form');
 
 const allTasksBtn = document.querySelector("#allTasks")
+const importantTasksBtn = document.querySelector("#importantTasks")
 
 export const addListeners = () => {
     showTaskForm.addEventListener('click', ()=>taskDialog.showModal())
@@ -49,6 +50,12 @@ export const addListeners = () => {
         displayCurrentSection("All Tasks");
         clearTaskList();
         displayTasks();
+    })
+
+    importantTasksBtn.addEventListener('click', ()=> {
+        displayCurrentSection("Important");
+        clearTaskList();
+        displayImportant();
     })
 }
 const saveProject = () => {
