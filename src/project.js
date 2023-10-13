@@ -1,5 +1,6 @@
-import { displayProjects } from "./displayController";
+import { displayProjects, displayTasks } from "./displayController";
 import { clearProjectList, addTaskToPage, appendTask } from "./domController";
+import { deleteTask } from "./task";
 export class Project {
     constructor(title){
         this.title = title;
@@ -27,6 +28,14 @@ export const getProjects = () => {
 }
 
 export const deleteProject = (projectTitle) => {
+    projectList.forEach(project => {
+        if(project.title === projectTitle){
+            project.taskList.forEach(task => {
+                console.log('deleteTask',task.title)
+                deleteTask(task.title)
+            })
+        }
+    })
     projectList = projectList.filter(project => project.title !== projectTitle);
     localStorage.setItem('ProjectList', JSON.stringify(projectList));
     clearProjectList();
@@ -35,7 +44,7 @@ export const deleteProject = (projectTitle) => {
 
 export const displayProjectTasks = (project) => {
     project.taskList.forEach(task => {
-            console.log(task)
+            // console.log(task)
             appendTask(addTaskToPage(task))
     })
 }
@@ -49,3 +58,4 @@ export const addTaskToProject = (currentSection, task) => {
     });
     localStorage.setItem('ProjectList', JSON.stringify(projectList));
 }
+
