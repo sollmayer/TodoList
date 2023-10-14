@@ -8,15 +8,16 @@ export class Task {
         this.priority = priority;
         this.project = project;
         this.important = false;
+        this.completed = false;
     }
 
-    getTitle = () => {
-        return this.title;
-    }
+    // getTitle = () => {
+    //     return this.title;
+    // }
 
-    setTitle = (title) => {
-        this.title = title;
-    }
+    // setTitle = (title) => {
+    //     this.title = title;
+    // }
 }
 
 let taskList = [...JSON.parse(localStorage.getItem('TaskList')) || []] ;
@@ -42,7 +43,7 @@ export const addTask = () => {
 
     addTaskToProject(currentSection, newTask)
     
-    return {title, description, dueDate,priority, important:false}
+    return {title, description, dueDate,priority, important:false, completed:false}
 }
 
 const getProjectForTask = () => {
@@ -65,14 +66,19 @@ export const deleteTask = (taskTitle) => {
     };
 }
 
-export const toggleTaskImportant = (title) => {
+// export const toggleTaskImportant = (title) => {
+//     updateTaskStatus(title, 'important', updateProjectTaskList)
+// }
+// export const toggleCompleteStatus = (taskTitle) => {
+//     updateTaskStatus(taskTitle, 'completed', updateProjectTaskList)
+// }
+
+export const updateTaskStatus = (taskTitle, field, projectFunc) => {
     let tasks = getTasks().map(task => {
-        if(task.title == title) {
-            task.important = !task.important;
-            // toggleTaskImportantProject(task.project)
-            updateProjectTaskList(task.project, title);
+        if(task.title == taskTitle) {
+            task[field] = !task[field];
+            projectFunc(task.project, taskTitle, field);
         }
-        console.log(task);
         return task;
     })
     localStorage.setItem("TaskList", JSON.stringify(tasks));
