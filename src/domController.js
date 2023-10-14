@@ -1,5 +1,5 @@
-import { createTask, addTask, deleteTask, toggleTaskImportant } from "./task";
-import { createProject, populateProjectList, deleteProject } from "./project";
+import { createTask, addTask, deleteTask, toggleTaskImportant, toggleCompleteStatus, updateTaskStatus } from "./task";
+import { createProject, populateProjectList, deleteProject, updateProjectTaskList } from "./project";
 import { displayProjects, displayCurrentSection, currentSection, displayTasks, displayImportant } from "./displayController";
 
 const showTaskForm = document.querySelector('#showTaskForm');
@@ -101,7 +101,7 @@ export const addProjectToPage = ({title}) => {
 }   
 
 
-export const addTaskToPage = ({title, description, dueDate,priority,important}) => {
+export const addTaskToPage = ({title, description, dueDate,priority,important,completed}) => {
     const taskContainer = document.createElement('div')
     const taskTitle = document.createElement('p');
     const taskDescription = document.createElement('p');
@@ -109,7 +109,10 @@ export const addTaskToPage = ({title, description, dueDate,priority,important}) 
     const taskPriority = document.createElement('p');
     const importantBtn = document.createElement('button');
     const deleteTaskBtn = document.createElement('button');
+    const completeCheckbox = document.createElement("input");
    
+    completeCheckbox.setAttribute('type', 'checkbox');
+
     taskTitle.textContent = title;
     taskDescription.textContent = description;
     taskDueDate.textContent = dueDate;
@@ -117,14 +120,25 @@ export const addTaskToPage = ({title, description, dueDate,priority,important}) 
 
     importantBtn.textContent = "Important";
     if(important) importantBtn.classList.toggle('importantYellow');
+    if(completed) {
+        taskContainer.classList.toggle('completed');
+        completeCheckbox.checked = true;
+    }
 
     importantBtn.addEventListener('click', () => {
         importantBtn.classList.toggle('importantYellow');
-        toggleTaskImportant(title);
+        // toggleTaskImportant(title);
+        updateTaskStatus(title, 'important', updateProjectTaskList)
+    })
+    completeCheckbox.addEventListener('change', ()=> {
+        taskContainer.classList.toggle('completed');
+        // toggleCompleteStatus(title);
+        updateTaskStatus(title, 'completed', updateProjectTaskList)
     })
     deleteTaskBtn.textContent = "Delete Task";
     deleteTaskBtn.addEventListener('click', () => deleteTask(title))
 
+    taskContainer.appendChild(completeCheckbox);
     taskContainer.appendChild(taskTitle);
     taskContainer.appendChild(taskDescription);
     taskContainer.appendChild(taskDueDate);
