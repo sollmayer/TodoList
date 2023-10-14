@@ -66,18 +66,35 @@ export const deleteTask = (taskTitle) => {
     };
 }
 
-// export const toggleTaskImportant = (title) => {
-//     updateTaskStatus(title, 'important', updateProjectTaskList)
-// }
-// export const toggleCompleteStatus = (taskTitle) => {
-//     updateTaskStatus(taskTitle, 'completed', updateProjectTaskList)
+
+// export const updateTaskStatus = (taskTitle, field, projectFunc) => {
+//     let tasks = getTasks().map(task => {
+//         if(task.title == taskTitle) {
+//             task[field] = !task[field];
+//             projectFunc(task.project, taskTitle, field);
+//         }
+//         return task;
+//     })
+//     localStorage.setItem("TaskList", JSON.stringify(tasks));
 // }
 
-export const updateTaskStatus = (taskTitle, field, projectFunc) => {
+// export const editTask = (taskTitle, field, value,projectFunc) => {
+//     let tasks = getTasks().map(task => {
+//         if(task.title == taskTitle) {
+//             task[field] = value;
+//             projectFunc(task.project, taskTitle, field, value);
+//         }
+//         return task;
+//     })
+//     localStorage.setItem("TaskList", JSON.stringify(tasks));
+// }
+
+export const updateTaskStatus = (taskTitle, field, value,projectFunc) => {
+    console.log('updateTaskStatus value: ', value);
     let tasks = getTasks().map(task => {
         if(task.title == taskTitle) {
-            task[field] = !task[field];
-            projectFunc(task.project, taskTitle, field);
+            task[field] = value;
+            projectFunc(task.project, taskTitle, field, value);
         }
         return task;
     })
