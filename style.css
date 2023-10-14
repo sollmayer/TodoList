@@ -1,6 +1,8 @@
 body {
     margin: 0;
     padding: 0;
+    font-family: 'Roboto', sans-serif;
+    /* font-weight: 400; */
 }
 main {
     display: grid;
@@ -26,13 +28,127 @@ header {
 
 .projects_section {
     margin-top: 10rem;
-    cursor: pointer;
 }
 
 .projectList div {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 3rem;
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    /* justify-content: center;
+    align-items: center; */
+    /* gap: 2rem; */
     border: 1px solid black;
+}
+.projectList div p {
+    cursor: pointer;
+    margin: 0;
+    padding: 1rem 3rem;
+}
+
+.content div {
+    border: 1px solid black;
+}
+
+#allTasks, #importantTasks {
+    cursor: pointer;
+    margin: 0;
+    padding-top: 1rem;
+}
+
+.importantYellow {
+    background-color: yellow;
+}
+
+.completed {
+    border: none;
+    background-color: lightgreen;
+}
+.taskList div input {
+    width: 1rem;
+    height: 1rem;
+    border-radius: 20rem;
+}
+#task_dialog {
+    width: 22rem;
+    padding: 0;
+    border: none;
+    border-radius: 0.5rem;
+    box-shadow: 0px 0px 5px 2px rgb(214, 214, 214);
+    font-family: 'Roboto', sans-serif;
+}
+#task_dialog .taskDialogHeading {
+    border: none;
+    padding: 1.5rem 1rem;
+    margin: 0;
+    color: white;
+    font-size: 1.5rem;
+    font-weight: 500;
+    background-color: rgb(80, 208, 255);
+}
+.taskDialogHeading p {
+    padding: 0;
+    margin: 0;
+}
+#task_form {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.4rem;
+    background-color: aliceblue;
+}
+#task_form div {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    border: none;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300;
+    font-size: 1rem;
+}
+#task_form textarea {
+    resize: none;
+}
+#task_dialog .close_form {
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    right: 1rem;
+    top: 0.6rem;
+    cursor: pointer;
+    font-weight: 700;
+    
+}
+#task_form input, select {
+    /* border: 0.05rem solid black; */
+    /* border-radius: 0.2rem; */
+    height: 1.8rem;
+}
+#task_form input, select, textarea, option {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300;
+    font-size: 1rem;
+}
+
+#task_form .form_buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 2rem;
+}
+
+#task_form .form_buttons button {
+    width: 5rem;
+    height: 2rem;
+    border-radius: 0.2rem;
+    border: none;
+    color: white;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    font-size: 0.9rem;
+    box-shadow: 0px 0px 0px 1px rgb(215, 215, 215);
+}
+#task_form .form_buttons #addTaskBtn {
+    background-color: rgb(255, 84, 22);
+}
+#task_form .form_buttons #cancel_task {
+    background-color: rgb(235, 40, 63);
 }
