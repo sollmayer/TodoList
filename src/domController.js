@@ -9,8 +9,8 @@ const taskDialog = document.querySelector("#task_dialog");
 const projectDialog = document.querySelector("#project_dialog");
 const editTaskDialog = document.querySelector("#editTask_dialog");
 
-const cancelTask = taskDialog.querySelector("#cancel_task");
-const cancelEditTask = taskDialog.querySelector("#cancel_task");
+const cancelTask = taskDialog.querySelectorAll("#cancel_task");
+const cancelEditTask = editTaskDialog.querySelectorAll("#cancel_EditTask");
 const cancelProject = projectDialog.querySelector("#cancel_project");
 
 const taskForm = document.querySelector('#task_form');
@@ -24,11 +24,11 @@ export const addListeners = () => {
     showTaskForm.addEventListener('click', ()=>taskDialog.showModal())
     showProjectForm.addEventListener('click', ()=>projectDialog.showModal())
 
-    cancelTask.addEventListener('click', (e)=> {
+    cancelTask.forEach(btn => btn.addEventListener('click', (e)=> {
         e.preventDefault();
         taskDialog.close()
-    })
-    cancelEditTask.addEventListener('click', (e)=>{e.preventDefault(); editTaskDialog.close()})
+    }))
+    cancelEditTask.forEach(btn => btn.addEventListener('click', (e)=>{e.preventDefault(); editTaskDialog.close()}))
     cancelProject.addEventListener('click', (e)=> {
         e.preventDefault();
         projectDialog.close()
@@ -71,11 +71,12 @@ export const clearTaskList = () => {
 export const addProjectToPage = ({title}) => {
     const projectContainer = document.createElement('div');
     const projectName = document.createElement('p');
-    const deleteProjectBtn = document.createElement('button');
+    const deleteProjectBtn = document.createElement('img');
 
     projectContainer.classList.add(`project-${title}`)
     projectName.textContent = title;
-    deleteProjectBtn.textContent = "Delete";
+    deleteProjectBtn.src = 'icons/delete-icon.svg';
+    deleteProjectBtn.classList.add('deleteProjectBtn')
     deleteProjectBtn.setAttribute("data-title", title)
     deleteProjectBtn.addEventListener('click', ()=>deleteProject(deleteProjectBtn.dataset.title))
     
@@ -89,8 +90,11 @@ export const addProjectToPage = ({title}) => {
 
 
 export const addTaskToPage = ({title, description, dueDate,priority,important,completed}) => {
+    const mainContainer = document.createElement('div')
     const taskContainer = document.createElement('div')
+    const detailsContainer = document.createElement('div')
     const taskTitle = document.createElement('p');
+    const taskTitleDetails = document.createElement('p');
     const taskDescription = document.createElement('p');
     const taskDueDate = document.createElement('p');
     const taskPriority = document.createElement('p');
@@ -102,10 +106,16 @@ export const addTaskToPage = ({title, description, dueDate,priority,important,co
     completeCheckbox.setAttribute('type', 'checkbox');
 
     taskTitle.textContent = title;
-    taskDescription.textContent = description;
-    taskDueDate.textContent = dueDate;
-    taskPriority.textContent = priority;
+    taskTitleDetails.insertAdjacentHTML('afterbegin', `<span class="detailsHeading">Title: </span><span>${title}</span>`);
+    taskDescription.insertAdjacentHTML('afterbegin', `<span class="detailsHeading">Description: </span><span>${description}</span>`);
+    taskDueDate.insertAdjacentHTML('afterbegin', `<span class="detailsHeading">Due Date: </span><span>${dueDate}</span>`);
+    taskPriority.insertAdjacentHTML('afterbegin', `<span class="detailsHeading">Priority: </span><span>${priority}</span>`);
+    // taskDescription.textContent = `Description: ${description}`;
+    // taskDueDate.textContent = `Due Date: ${dueDate}`;
+    // taskPriority.textContent = `Priority: ${priority}`;
 
+    //Show details
+    taskTitle.addEventListener('click', ()=> detailsContainer.classList.toggle('show'))
     
     // importantBtn section
     importantBtn.textContent = "Important";
@@ -126,12 +136,12 @@ export const addTaskToPage = ({title, description, dueDate,priority,important,co
     
     // completeCheckbox section
     if(completed) {
-        taskContainer.classList.toggle('completed');
+        mainContainer.classList.toggle('completed');
         completeCheckbox.checked = true;
     }
     let completeStatus = completed;
     completeCheckbox.addEventListener('change', ()=> {
-        taskContainer.classList.toggle('completed');
+        mainContainer.classList.toggle('completed');
         updateTaskStatus(title, 'completed', !completeStatus, updateProjectTaskList)
         completeStatus = !completeStatus;
     })
@@ -139,17 +149,25 @@ export const addTaskToPage = ({title, description, dueDate,priority,important,co
     deleteTaskBtn.textContent = "Delete Task";
     deleteTaskBtn.addEventListener('click', () => deleteTask(title))
 
-    taskContainer.appendChild(completeCheckbox);
-    taskContainer.appendChild(taskTitle);
-    taskContainer.appendChild(taskDescription);
-    taskContainer.appendChild(taskDueDate);
-    taskContainer.appendChild(taskPriority);
+    // taskContainer.appendChild(completeCheckbox);
+    const completeTitleDiv = document.createElement('div');
+    completeTitleDiv.append(completeCheckbox,taskTitle);
+    taskContainer.append(completeTitleDiv)
+    // taskContainer.appendChild(taskTitle);
     taskContainer.appendChild(importantBtn);
     taskContainer.appendChild(editBtn);
     taskContainer.appendChild(deleteTaskBtn);
+    detailsContainer.appendChild(taskTitleDetails);
+    detailsContainer.appendChild(taskDescription);
+    detailsContainer.appendChild(taskDueDate);
+    detailsContainer.appendChild(taskPriority);
+
     
-    taskContainer.classList.add(`task-${title}`)
-    return taskContainer;
+    mainContainer.appendChild(taskContainer)
+    mainContainer.appendChild(detailsContainer)
+    mainContainer.classList.add(`task-${title}`)
+    detailsContainer.classList.add('collapse');
+    return mainContainer;
 }
 
 export const appendTask = (container) => {
@@ -172,9 +190,13 @@ const showEditForm = (title,description,dueDate,priority) => {
             'priority': document.querySelector('#editPriority').value
         }
         console.log(newValues);
+        let taskTitle = title;
         for(const [key,value] of Object.entries(newValues)){
-            if(value !== previousValues[key]){
-                updateTaskStatus(title, key, value, updateProjectTaskList);
+            if(value != previousValues[key]){
+                console.log('key|value')
+                console.log({key,value});
+                updateTaskStatus(taskTitle, key, value, updateProjectTaskList);
+                taskTitle = newValues.title;
             }
         }
         editTaskDialog.close();
