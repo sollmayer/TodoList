@@ -58,30 +58,34 @@ hr {
     gap: 0.4rem;
 }
 .homeSections p:hover {
-    background-color: rgb(255, 255, 255);
+    background-color: #43c36e;
 }
 .homeSections p {
     margin: 0;
     cursor: pointer;
-    font-weight: 400;
-    color: rgb(45, 45, 45);
-    /* background-color: aqua; */
-    padding: 0.6rem 0.4rem;
     font-size: 1.1rem;
+    font-weight: 300;
+    /* color: rgb(45, 45, 45); */
+    /* background-color: aqua; */
+    padding: 0.8rem 1.5rem;
     width: 100%;
+    transition: 0.2s;
 
 }
 .homeSections div {
     display: flex;
     gap: 0.4rem;
-    background-color: #cdeaef;
+    background-color: #cdeaef62;
     border-radius: 0.3rem;
+}
+.homeSections p:hover {
+    background-color: #43c36e;
 }
 .homeSections div img {
     width: 26px;
 }
 .projects_section {
-    margin-top: 2rem;
+    /* margin-top: 2rem; */
 }
 .projects_section_heading {
     display: flex;
@@ -103,32 +107,54 @@ hr {
     background-color: rgb(157, 209, 255);
 }
 
-.deleteProjectBtn {
+.deleteProjectBtn, .projectIcon {
     width: 30px;
     align-self: center;
     justify-self: center;
     cursor: pointer;
 }
+.importantTaskBtn, .editTaskBtn, .deleteTaskBtn {
+    width: 26px;
+    align-self: center;
+    justify-self: center;
+    cursor: pointer;
+}
+.importantTaskBtn {
+    /* filter: invert(33%) sepia(0%) saturate(1116%) hue-rotate(158deg) brightness(90%) contrast(85%); */
+    /* filter: brightness(0) saturate(100%) invert(20%) sepia(0%) saturate(1%) hue-rotate(54deg) brightness(90%) contrast(85%); */
+    filter: brightness(0) saturate(100%) invert(16%) sepia(1%) saturate(5599%) hue-rotate(41deg) brightness(87%) contrast(85%);
+}
 .projectList div {
     display: grid;
     grid-template-columns: 3fr 1fr;
+    /* background-color: #cdeaef62; */
+    border-radius: 0.2rem;
+    transition: 0.2s;
+    margin-bottom: 0.2rem;
     /* justify-content: center;
     align-items: center; */
     /* gap: 2rem; */
     /* border: 1px solid black; */
 }
+/* .projectList div:not(.selected) {
+    background-color: #cdeaef62;
+} */
 .projectList div p {
+    font-size: 1.1rem;
+    font-weight: 300;
     cursor: pointer;
     margin: 0;
     padding: 0.8rem 1.5rem;
 }
 .projectList div:hover {
-    background-color: rgb(255, 255, 255);
+    background-color: #43c36e;
+    /* color: white; */
 }
 
 
 .content {
     padding: 2rem;
+    /* overflow-y: scroll; */
     background-color: rgb(236,236,236);
 }
 .content #taskSection {
@@ -215,7 +241,7 @@ hr {
     font-weight: 500;
 }
 .importantYellow {
-    background-color: yellow;
+    filter: invert(61%) sepia(73%) saturate(763%) hue-rotate(358deg) brightness(99%) contrast(96%);
 }
 
 .completed {
@@ -337,7 +363,7 @@ hr {
     height: 2.5rem;
     width: 5rem;
 }
-#task_form .form_buttons #cancel_task, #addProjectBtn {
+#task_form .form_buttons #cancel_task {
     background-color: rgb(255, 255, 255);
     font-weight: 400;
     color: black;
@@ -348,4 +374,108 @@ hr {
     color: black;
     height: 2.5rem;
     width: 5rem;
+}
+#project_dialog {
+    background-color: aliceblue;
+    border: none;
+    border-radius: 0.3rem;
+    padding: 0;
+}
+
+#project_dialog #project_form {
+    width: 15rem;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    /* justify-content: center; */
+    /* align-items: center; */
+    /* gap: 0.6rem; */
+}
+#project_form div {
+    display:flex ;
+    gap: 2rem;
+    justify-content: center;
+    margin-top: 0.6rem;
+}
+#project_form input {
+    height: 1.8rem;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300;
+    font-size: 1rem;
+}
+#project_form label {
+    /* margin-bottom: 0.5rem; */
+    /* padding: 2rem; */
+    padding-bottom: 0.2rem;
+}
+#addProjectBtn {
+    border: none;
+    width: 4rem;
+    height: 2rem;
+    background-color: rgb(255, 84, 22);
+    border-radius: 0.2rem;
+    color: white;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+}
+
+#project_form div #cancel_project {
+    border: none;
+    width: 4rem;
+    height: 2rem;
+    background-color: rgb(255, 84, 22);
+    border-radius: 0.2rem;
+    color: black;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0px 0px 0px 1px rgb(215, 215, 215);
+}
+
+.close_ProjectForm {
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    right: 1rem;
+    top: 0.6rem;
+    cursor: pointer;
+    font-weight: 700;
+}
+.projectDialogHeading {
+    border: none;
+    padding: 1rem 1rem;
+    margin: 0;
+    color: white;
+    font-size: 1.5rem;
+    font-weight: 500;
+    background-color: rgb(80, 208, 255);
+    display: flex;
+    align-items: center;
+}
+.projectDialogHeading p {
+    font-weight: 500;
+    margin: 0;
+}
+
+.selected {
+    background-color: #43c36e;
+    color:white;
+}
+
+.sortValues {
+    border: 1px solid rgb(150, 150, 150);
+    width: 5rem;
+    border-radius: 0.2rem;
+    display: none;
+    position: relative;
+}
+.sortValues p {
+    cursor: pointer;
+}
+.sortValues:is(.show) {
+    display: block;
+    position: absolute;
+    left: 25rem;
+    background-color: dodgerblue;
+    color: white;
 }
