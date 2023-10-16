@@ -1,6 +1,8 @@
 import { getProjects, displayProjectTasks } from "./project";
-import { addProjectToPage, addTaskToPage, clearTaskList } from "./domController";
+import { addProjectToPage, addTaskToPage, clearTaskList, resetSelection } from "./domController";
 import { getTasks } from "./task";
+
+import { differenceInCalendarDays, formatDistanceToNow,isToday,parseISO, isThisWeek } from "date-fns";
 
 export let currentSection = "All Tasks";
 
@@ -22,14 +24,15 @@ export const displayProjects = () => {
 // }
 
 
-export const displayCurrentSection = (currentTitle) => {
+export const displayCurrentSection = (currentTitle, section) => {
     clearTaskList();
     
+    resetSelection();
+    section.classList.add('selected');
+
     const selectedProject = getProjects().filter(project => project.title == currentTitle)[0] || [];
-    console.log('displayCurrentSection',selectedProject)
     currentSection = selectedProject.title || currentTitle;
     document.querySelector('#taskSection').textContent = `Current section: ${currentSection}`
-    console.log("selectedProject", selectedProject)
 
     if(selectedProject.title) {
         displayProjectTasks(selectedProject);
@@ -39,17 +42,15 @@ export const displayCurrentSection = (currentTitle) => {
 }
 
 export const displayTasks = () => {
-    
     let tasks = getTasks();
-    console.log("Displaying tasks",tasks)
-    if(currentSection == "Important") {
-        tasks = tasks.filter(task => task.important)
-    }
-    console.log(tasks)
-    tasks.forEach(task => {
-        
-        document.querySelector('.taskList').appendChild(addTaskToPage(task))
-    })
+    // console.log("Displaying tasks",tasks)
+
+    if(currentSection == "Important Tasks") tasks = tasks.filter(task => task.important)
+    else if(currentSection == "Completed Tasks") tasks = tasks.filter(task => task.completed)
+    else if(currentSection == "Today") tasks = tasks.filter(task => isToday(parseISO(task.dueDate)))
+    else if(currentSection == "This Week") tasks = tasks.filter(task => isThisWeek(parseISO(task.dueDate)))
+
+    tasks.forEach(task => document.querySelector('.taskList').appendChild(addTaskToPage(task)))
 }
 export const displayImportant = () => {
     const tasks = getTasks();
