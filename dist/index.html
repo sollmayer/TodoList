@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
     <script src="main.js" defer></script>
     <title>Document</title>
 </head>
@@ -11,25 +14,50 @@
     <main>
         <header>
             <div>
-                <h1>TODO LIST</h1>
+                <p>ToDo</p>
             </div>
         </header>
         <div class="sidebar">
-            <h2>Home</h2>
-            <hr>
-            <h2 id="allTasks">All Tasks</h2>
-            <h2 id="importantTasks">Important</h2>
+            <div>
+                <p>Home</p>
+                <hr>
+                <div class="homeSections">
+                    <div>
+                        <p id="allTasks">All Tasks</p>
+                    </div>
+                    <div>
+                        <!-- <img src="icons/important_icon.svg" alt="important_icon"> -->
+                        <p id="importantTasks">Important</p>
+                    </div>
+                    <div>
+                        <p id="completedTasks">Completed</p>
+                    </div>
+                    <div>
+                        <p id="todayTasks">Today</p>
+                    </div>
+                    <div>
+                        <p id="thisWeekTasks">This Week</p>
+                    </div>
+                </div>
+            </div>
             
             <div class="projects_section">
+                <div class="projects_section_heading">
+                    <p>Projects</p>
+                    <button id="showProjectForm">+</button>
+                </div>
                 <hr>
-                <h2>Projects</h2>
-                <button id="showProjectForm">Add Project</button>
                 <dialog id="project_dialog">
+                    <div class="projectDialogHeading">
+                        <p>Add Project</p>
+                        <p id="cancel_project" class="close_ProjectForm">✖</p>
+                    </div>
                     <form action="#" id="project_form">
+                        <label for="projectName">Name:</label>
                         <input type ="text" id ="projectName" placeholder="Name" required maxlength="75">
                         <div>
+                            <button type="submit" form="project_form" id="addProjectBtn">Add</button>
                             <button id="cancel_project">Cancel</button>
-                            <button type="submit" form="project_form">Add</button>
                         </div>
 
                     </form>
@@ -38,17 +66,78 @@
             </div>
         </div>
         <div class="content">
-            <p id="taskSection">ALL TASKS</p>
-            <button id="showTaskForm">Add Task</button>
+            <!-- <div class="filterSection">
+                <div class="sortValues">
+                    <p>important</p>
+                    <p>completed</p>
+                </div>
+                <button class="sortBtn">Sort By</button>
+            </div> -->
+            <div class="sectionHeading">
+                <p id="taskSection">ALL TASKS</p>
+                <button id="showTaskForm">Add Task</button>
+            </div>
             <dialog id="task_dialog">
+                <div class="taskDialogHeading">
+                    <p>Add Task</p>
+                    <p id="cancel_task" class="close_form">✖</p>
+                </div>
                 <form action="#" id="task_form">
-                    <input type ="text" id ="title" placeholder="Title" required maxlength="75">
-                    <input type ="text" id="description" placeholder="Description" required maxlength="100">
-                    <input type ="text" id="dueDate" placeholder="dueDate" required>
-                    <input type ="text" id="priority" placeholder="Priority" required>
                     <div>
+                        <label for="title">Title</label>
+                        <input type ="text" id ="title" placeholder="Title" required maxlength="150">
+                    </div>
+                    <div>
+                        <label for="description">Description(optional)</label>
+                        <textarea type ="text" id="description" placeholder="Description" maxlength="200" rows="5"></textarea>
+                    </div>
+                    <div>
+                        <label for="dueDate">Date</label>
+                        <input type ="date" id="dueDate" placeholder="dueDate" required>
+                    </div>
+                    <div>
+                        <label for="prioritySelect">Priority</label>
+                        <select name="prioritySelect" id="priority">
+                            <option value="Low">Low</option>
+                            <option value="Medium">Medium</option>
+                            <option value="High">High</option>
+                        </select>
+                    </div>
+                    <div class="form_buttons">
+                        <button type="submit" form="task_form" id="addTaskBtn">Add</button>
                         <button id="cancel_task">Cancel</button>
-                        <button type="submit" form="task_form">Add</button>
+                    </div>
+                </form>
+            </dialog>
+            <dialog id="editTask_dialog">
+                <div class="editTaskDialogHeading">
+                    <p>Edit Task</p>
+                    <p id="cancel_EditTask" class="close_EditForm">✖</p>
+                </div>
+                <form action="#" id="editTask_form">
+                    <div>
+                        <label for="title">Title</label>
+                        <input type ="text" id ="editTitle" placeholder="Title" required maxlength="150">
+                    </div>
+                    <div>
+                        <label for="description">Description(optional)</label>
+                        <textarea type ="text" id="editDescription" placeholder="Description" maxlength="200" rows="5"></textarea>
+                    </div>
+                    <div>
+                        <label for="dueDate">Date</label>
+                        <input type ="date" id="editDueDate" placeholder="dueDate" required>
+                    </div>
+                    <div>
+                        <label for="prioritySelect">Priority</label>
+                        <select name="prioritySelect" id="editPriority">
+                            <option value="Low">Low</option>
+                            <option value="Medium">Medium</option>
+                            <option value="High">High</option>
+                        </select>
+                    </div>
+                    <div class="editTaskForm_buttons">
+                        <button type="submit" form="editTask_form" id="editTaskBtn">Save Changes</button>
+                        <button id="cancel_EditTask">Cancel</button>
                     </div>
                 </form>
             </dialog>
