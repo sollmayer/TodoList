@@ -3,4 +3,4 @@ import { displayCurrentSection, displayProjects, displayTasks } from "./displayC
 addListeners();
 displayProjects();
 // displayCurrentSection('All Tasks');
-displayCurrentSection("All Tasks",document.querySelector('#allTasks'))
+displayCurrentSection("All Tasks",document.querySelector('#AllTasks'))
