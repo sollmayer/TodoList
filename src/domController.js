@@ -16,11 +16,11 @@ const cancelProject = projectDialog.querySelectorAll("#cancel_project");
 const taskForm = document.querySelector('#task_form');
 const projectForm = document.querySelector('#project_form');
 
-const allTasksBtn = document.querySelector("#allTasks")
-const importantTasksBtn = document.querySelector("#importantTasks")
-const completedTasksBtn = document.querySelector("#completedTasks")
-const todayTasksBtn = document.querySelector("#todayTasks")
-const thisWeekTasksBtn = document.querySelector("#thisWeekTasks")
+const allTasksBtn = document.querySelector("#AllTasks")
+const importantTasksBtn = document.querySelector("#ImportantTasks")
+const completedTasksBtn = document.querySelector("#CompletedTasks")
+const todayTasksBtn = document.querySelector("#TodayTasks")
+const thisWeekTasksBtn = document.querySelector("#ThisWeekTasks")
 
 // const sortBtn = document.querySelector('.sortBtn');
 // const sortOptions = document.querySelectorAll('.sortValues p')
@@ -224,8 +224,7 @@ const showEditForm = (title,description,dueDate,priority) => {
         }
         editTaskDialog.close();
         // clearTaskList();
-        console.log('showEditForm',currentSection);
-        displayCurrentSection(currentSection, document.querySelector(`.${currentSection}`) ?? document.querySelector(`.project-${currentSection}`));
+        displayCurrentSection(currentSection, document.querySelector(`#${currentSection.replace(' ',"")}`) ?? document.querySelector(`.project-${currentSection}`));
     })
 }
 
