@@ -2,7 +2,7 @@ import { getProjects, displayProjectTasks } from "./project";
 import { addProjectToPage, addTaskToPage, clearTaskList, resetSelection } from "./domController";
 import { getTasks } from "./task";
 
-import { differenceInCalendarDays, formatDistanceToNow,isToday,parseISO, isThisWeek } from "date-fns";
+import { isToday,parseISO, isThisWeek } from "date-fns";
 
 export let currentSection = "All Tasks";
 
@@ -14,15 +14,6 @@ export const displayProjects = () => {
         document.querySelector('.projectList').appendChild(addProjectToPage(project))
     })
 }
-// export const displayTasks = () => {
-//     const tasks = getTasks();
-//     console.log("Displaying tasks",tasks)
-//     tasks.forEach(task => {
-//         // if(task.important) document.querySelector('')
-//         document.querySelector('.taskList').appendChild(addTaskToPage(task))
-//     })
-// }
-
 
 export const displayCurrentSection = (currentTitle, section) => {
     clearTaskList();
@@ -33,7 +24,7 @@ export const displayCurrentSection = (currentTitle, section) => {
     const selectedProject = getProjects().filter(project => project.title == currentTitle)[0] || [];
     currentSection = selectedProject.title || currentTitle;
     document.querySelector('#taskSection').textContent = `Current section: ${currentSection}`
-
+    toggleAddTaskBtn();
     if(selectedProject.title) {
         displayProjectTasks(selectedProject);
     }else {
@@ -43,7 +34,6 @@ export const displayCurrentSection = (currentTitle, section) => {
 
 export const displayTasks = () => {
     let tasks = getTasks();
-    // console.log("Displaying tasks",tasks)
 
     if(currentSection == "Important Tasks") tasks = tasks.filter(task => task.important)
     else if(currentSection == "Completed Tasks") tasks = tasks.filter(task => task.completed)
@@ -59,4 +49,11 @@ export const displayImportant = () => {
             document.querySelector('.taskList').appendChild(addTaskToPage(task))
         }
     })
+}
+
+const toggleAddTaskBtn = () => {
+    let disableSectionValues = ["Completed Tasks","Important Tasks","Today","This Week"]
+    if(disableSectionValues.some(item => item == currentSection)) 
+        document.querySelector('#showTaskForm').classList.add('disabled')
+    else document.querySelector('#showTaskForm').classList.remove('disabled')
 }

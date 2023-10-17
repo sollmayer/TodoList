@@ -1,4 +1,4 @@
-import { displayProjects, displayTasks } from "./displayController";
+import { displayCurrentSection, displayProjects, displayTasks } from "./displayController";
 import { clearProjectList, addTaskToPage, appendTask } from "./domController";
 import { deleteTask } from "./task";
 export class Project {
@@ -7,8 +7,6 @@ export class Project {
         this.taskList = [];
     }
     
-    // addTaskToProject = (task) => this.taskList.push(task);
-
 }
 
 export const createProject = (title) => {
@@ -20,7 +18,6 @@ let projectList = [...JSON.parse(localStorage.getItem('ProjectList')) || []] ;
 export const populateProjectList = (project) => {
     projectList.push(project)
     localStorage.setItem('ProjectList', JSON.stringify(projectList));
-    // console.log(localStorage.getItem('ProjectList'));
 }
 
 export const getProjects = () => {
@@ -40,11 +37,11 @@ export const deleteProject = (projectTitle) => {
     localStorage.setItem('ProjectList', JSON.stringify(projectList));
     clearProjectList();
     displayProjects();
+    displayCurrentSection('All Tasks', document.querySelector('#allTasks'));
 }
 
 export const displayProjectTasks = (project) => {
     project.taskList.forEach(task => {
-            // console.log(task)
             appendTask(addTaskToPage(task))
     })
 }
@@ -69,30 +66,6 @@ export const deleteTaskFromProject = (projectName, taskTitle) => {
     });
     localStorage.setItem('ProjectList', JSON.stringify(projectList));
 }
-
-// export const updateProjectTaskList = (projectName,taskTitle, field) => {
-//     projectList = projectList.map(project => {
-//         if(projectName === project.title){
-//             project.taskList.forEach(task => {
-//                 if(taskTitle === task.title) task[field] = !task[field];
-//             })
-//         }
-//         return project;
-//     });
-//     localStorage.setItem('ProjectList', JSON.stringify(projectList));
-// }
-
-// export const editProjectTaskList = (projectName,taskTitle, field, value) => {
-//     projectList = projectList.map(project => {
-//         if(projectName === project.title){
-//             project.taskList.forEach(task => {
-//                 if(taskTitle === task.title) task[field] = value;
-//             })
-//         }
-//         return project;
-//     });
-//     localStorage.setItem('ProjectList', JSON.stringify(projectList));
-// }
 
 export const updateProjectTaskList = (projectName,taskTitle, field, value) => {
     projectList = projectList.map(project => {
