@@ -1,6 +1,6 @@
-import { createTask, addTask, deleteTask, toggleTaskImportant, toggleCompleteStatus, updateTaskStatus, editTask } from "./task";
-import { createProject, populateProjectList, deleteProject, updateProjectTaskList, editProjectTaskList } from "./project";
-import { displayProjects, displayCurrentSection, currentSection, displayTasks, displayImportant } from "./displayController";
+import { addTask, deleteTask, updateTaskStatus } from "./task";
+import { createProject, populateProjectList, deleteProject, updateProjectTaskList } from "./project";
+import { displayProjects, displayCurrentSection, currentSection } from "./displayController";
 
 const showTaskForm = document.querySelector('#showTaskForm');
 const showProjectForm = document.querySelector('#showProjectForm');
@@ -11,14 +11,19 @@ const editTaskDialog = document.querySelector("#editTask_dialog");
 
 const cancelTask = taskDialog.querySelectorAll("#cancel_task");
 const cancelEditTask = editTaskDialog.querySelectorAll("#cancel_EditTask");
-const cancelProject = projectDialog.querySelector("#cancel_project");
+const cancelProject = projectDialog.querySelectorAll("#cancel_project");
 
 const taskForm = document.querySelector('#task_form');
 const projectForm = document.querySelector('#project_form');
 
 const allTasksBtn = document.querySelector("#allTasks")
 const importantTasksBtn = document.querySelector("#importantTasks")
+const completedTasksBtn = document.querySelector("#completedTasks")
+const todayTasksBtn = document.querySelector("#todayTasks")
+const thisWeekTasksBtn = document.querySelector("#thisWeekTasks")
 
+// const sortBtn = document.querySelector('.sortBtn');
+// const sortOptions = document.querySelectorAll('.sortValues p')
 
 export const addListeners = () => {
     showTaskForm.addEventListener('click', ()=>taskDialog.showModal())
@@ -29,10 +34,10 @@ export const addListeners = () => {
         taskDialog.close()
     }))
     cancelEditTask.forEach(btn => btn.addEventListener('click', (e)=>{e.preventDefault(); editTaskDialog.close()}))
-    cancelProject.addEventListener('click', (e)=> {
+    cancelProject.forEach(btn => btn.addEventListener('click', (e)=> {
         e.preventDefault();
         projectDialog.close()
-    })
+    }))
     
     taskForm.addEventListener('submit', (e)=>{
         e.preventDefault();
@@ -50,9 +55,14 @@ export const addListeners = () => {
         projectDialog.close();
     })
     
-    allTasksBtn.addEventListener('click', () => displayCurrentSection("All Tasks"))
-
-    importantTasksBtn.addEventListener('click', ()=> displayCurrentSection("Important"))
+    allTasksBtn.addEventListener('click', (e) => displayCurrentSection("All Tasks",e.target))
+    importantTasksBtn.addEventListener('click', (e) => displayCurrentSection("Important Tasks",e.target))
+    completedTasksBtn.addEventListener('click', (e) => displayCurrentSection("Completed Tasks",e.target))
+    todayTasksBtn.addEventListener('click', (e) => displayCurrentSection("Today",e.target))
+    thisWeekTasksBtn.addEventListener('click', (e) => displayCurrentSection("This Week",e.target))
+    // sortBtn.addEventListener('click', ()=> document.querySelector('.sortValues').classList.toggle('show'))
+    // sortOptions.forEach(option => option.addEventListener('click', () => sortTask(option.value)))
+    
 }
 const saveProject = () => {
     const name = document.querySelector('#projectName').value
@@ -61,27 +71,34 @@ const saveProject = () => {
     populateProjectList(project);
 
 }
-
+export const resetSelection = () => {
+    document.querySelectorAll('.selected').forEach(section => section.classList.remove('selected'));
+}
 export const clearProjectList = () => {
     document.querySelector('.projectList').textContent = "";
 }
 export const clearTaskList = () => {
     document.querySelector('.taskList').textContent = "";
 }
+
 export const addProjectToPage = ({title}) => {
     const projectContainer = document.createElement('div');
     const projectName = document.createElement('p');
+    const projectIcon = document.createElement('img');
     const deleteProjectBtn = document.createElement('img');
 
     projectContainer.classList.add(`project-${title}`)
     projectName.textContent = title;
+    projectIcon.src = 'icons/reorder-horizontal.svg';
     deleteProjectBtn.src = 'icons/delete-icon.svg';
+    projectIcon.classList.add('projectIcon')
     deleteProjectBtn.classList.add('deleteProjectBtn')
     deleteProjectBtn.setAttribute("data-title", title)
     deleteProjectBtn.addEventListener('click', ()=>deleteProject(deleteProjectBtn.dataset.title))
     
 
-    projectName.addEventListener('click', () => displayCurrentSection(title))
+    projectName.addEventListener('click', (e) => displayCurrentSection(title,e.target.parentElement))
+    // projectContainer.appendChild(projectIcon);
     projectContainer.appendChild(projectName);
     projectContainer.appendChild(deleteProjectBtn);
 
@@ -97,28 +114,29 @@ export const addTaskToPage = ({title, description, dueDate,priority,important,co
     const taskTitleDetails = document.createElement('p');
     const taskDescription = document.createElement('p');
     const taskDueDate = document.createElement('p');
+    const taskDueDateDetails = document.createElement('p');
     const taskPriority = document.createElement('p');
-    const importantBtn = document.createElement('button');
-    const editBtn = document.createElement('button');
-    const deleteTaskBtn = document.createElement('button');
+    const importantBtn = document.createElement('img');
+    const editBtn = document.createElement('img');
+    const deleteTaskBtn = document.createElement('img');
     const completeCheckbox = document.createElement("input");
    
     completeCheckbox.setAttribute('type', 'checkbox');
 
     taskTitle.textContent = title;
+    taskDueDate.textContent = dueDate;
+    taskDueDate.classList.add('dueDateMainContent')
     taskTitleDetails.insertAdjacentHTML('afterbegin', `<span class="detailsHeading">Title: </span><span>${title}</span>`);
     taskDescription.insertAdjacentHTML('afterbegin', `<span class="detailsHeading">Description: </span><span>${description}</span>`);
-    taskDueDate.insertAdjacentHTML('afterbegin', `<span class="detailsHeading">Due Date: </span><span>${dueDate}</span>`);
+    taskDueDateDetails.insertAdjacentHTML('afterbegin', `<span class="detailsHeading">Due Date: </span><span>${dueDate}</span>`);
     taskPriority.insertAdjacentHTML('afterbegin', `<span class="detailsHeading">Priority: </span><span>${priority}</span>`);
-    // taskDescription.textContent = `Description: ${description}`;
-    // taskDueDate.textContent = `Due Date: ${dueDate}`;
-    // taskPriority.textContent = `Priority: ${priority}`;
-
+    
     //Show details
     taskTitle.addEventListener('click', ()=> detailsContainer.classList.toggle('show'))
     
     // importantBtn section
-    importantBtn.textContent = "Important";
+    importantBtn.src = 'icons/star.svg';
+    importantBtn.classList.add('importantTaskBtn');
     if(important) importantBtn.classList.toggle('importantYellow');
 
     let importantStatus = important;
@@ -129,7 +147,8 @@ export const addTaskToPage = ({title, description, dueDate,priority,important,co
     })
 
     // editBtn section
-    editBtn.textContent = "Edit";
+    editBtn.src = 'icons/pencil.svg';
+    editBtn.classList.add('editTaskBtn');
     editBtn.addEventListener('click', ()=>{
         showEditForm(title,description,dueDate,priority);
     })
@@ -146,20 +165,24 @@ export const addTaskToPage = ({title, description, dueDate,priority,important,co
         completeStatus = !completeStatus;
     })
 
-    deleteTaskBtn.textContent = "Delete Task";
+    deleteTaskBtn.src = 'icons/delete-icon.svg';
+    deleteTaskBtn.classList.add('deleteTaskBtn');
     deleteTaskBtn.addEventListener('click', () => deleteTask(title))
 
     // taskContainer.appendChild(completeCheckbox);
     const completeTitleDiv = document.createElement('div');
     completeTitleDiv.append(completeCheckbox,taskTitle);
+    
+    taskContainer.classList.add('mainTaskContent');
     taskContainer.append(completeTitleDiv)
     // taskContainer.appendChild(taskTitle);
+    taskContainer.appendChild(taskDueDate);
     taskContainer.appendChild(importantBtn);
     taskContainer.appendChild(editBtn);
     taskContainer.appendChild(deleteTaskBtn);
     detailsContainer.appendChild(taskTitleDetails);
     detailsContainer.appendChild(taskDescription);
-    detailsContainer.appendChild(taskDueDate);
+    detailsContainer.appendChild(taskDueDateDetails);
     detailsContainer.appendChild(taskPriority);
 
     
@@ -202,6 +225,12 @@ const showEditForm = (title,description,dueDate,priority) => {
         editTaskDialog.close();
         // clearTaskList();
         console.log('showEditForm',currentSection);
-        displayCurrentSection(currentSection);
+        displayCurrentSection(currentSection, document.querySelector(`.${currentSection}`) ?? document.querySelector(`.project-${currentSection}`));
     })
-}        
+}
+
+// export const addStyleToSelectedSection = () => {
+//     resetSelection();
+//     let selected = document.querySelector(`.${currentSection}`) ?? document.querySelector(`.project-${currentSection}`)
+//     selected.classList.add(selected)
+// }
