@@ -49,7 +49,7 @@ export const deleteTask = (taskTitle) => {
     const {project: taskProject} = getTasks().filter(task => task.title === taskTitle)[0];
     taskList = getTasks().filter(task => task.title !== taskTitle);
     
-    document.querySelector('.taskList').removeChild(document.querySelector(`.task-${taskTitle}`))
+    document.querySelector('.taskList').removeChild(document.querySelector(`.task-${taskTitle.replaceAll(' ','')}`))
     if(taskProject != "All Tasks") {
         console.log("taskProject",taskProject)
         deleteTaskFromProject(taskProject,taskTitle)

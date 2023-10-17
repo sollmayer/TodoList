@@ -23,7 +23,7 @@ export const displayCurrentSection = (currentTitle, section) => {
 
     const selectedProject = getProjects().filter(project => project.title == currentTitle)[0] || [];
     currentSection = selectedProject.title || currentTitle;
-    document.querySelector('#taskSection').textContent = `Current section: ${currentSection}`
+    document.querySelector('#taskSection').textContent = currentSection;
     toggleAddTaskBtn();
     if(selectedProject.title) {
         displayProjectTasks(selectedProject);
@@ -35,8 +35,8 @@ export const displayCurrentSection = (currentTitle, section) => {
 export const displayTasks = () => {
     let tasks = getTasks();
 
-    if(currentSection == "Important Tasks") tasks = tasks.filter(task => task.important)
-    else if(currentSection == "Completed Tasks") tasks = tasks.filter(task => task.completed)
+    if(currentSection == "Important") tasks = tasks.filter(task => task.important)
+    else if(currentSection == "Completed") tasks = tasks.filter(task => task.completed)
     else if(currentSection == "Today") tasks = tasks.filter(task => isToday(parseISO(task.dueDate)))
     else if(currentSection == "This Week") tasks = tasks.filter(task => isThisWeek(parseISO(task.dueDate)))
 

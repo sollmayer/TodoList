@@ -17,10 +17,10 @@ const taskForm = document.querySelector('#task_form');
 const projectForm = document.querySelector('#project_form');
 
 const allTasksBtn = document.querySelector("#AllTasks")
-const importantTasksBtn = document.querySelector("#ImportantTasks")
-const completedTasksBtn = document.querySelector("#CompletedTasks")
-const todayTasksBtn = document.querySelector("#TodayTasks")
-const thisWeekTasksBtn = document.querySelector("#ThisWeekTasks")
+const importantTasksBtn = document.querySelector("#Important")
+const completedTasksBtn = document.querySelector("#Completed")
+const todayTasksBtn = document.querySelector("#Today")
+const thisWeekTasksBtn = document.querySelector("#ThisWeek")
 
 // const sortBtn = document.querySelector('.sortBtn');
 // const sortOptions = document.querySelectorAll('.sortValues p')
@@ -56,8 +56,8 @@ export const addListeners = () => {
     })
     
     allTasksBtn.addEventListener('click', (e) => displayCurrentSection("All Tasks",e.target))
-    importantTasksBtn.addEventListener('click', (e) => displayCurrentSection("Important Tasks",e.target))
-    completedTasksBtn.addEventListener('click', (e) => displayCurrentSection("Completed Tasks",e.target))
+    importantTasksBtn.addEventListener('click', (e) => displayCurrentSection("Important",e.target))
+    completedTasksBtn.addEventListener('click', (e) => displayCurrentSection("Completed",e.target))
     todayTasksBtn.addEventListener('click', (e) => displayCurrentSection("Today",e.target))
     thisWeekTasksBtn.addEventListener('click', (e) => displayCurrentSection("This Week",e.target))
     // sortBtn.addEventListener('click', ()=> document.querySelector('.sortValues').classList.toggle('show'))
@@ -87,7 +87,7 @@ export const addProjectToPage = ({title}) => {
     const projectIcon = document.createElement('img');
     const deleteProjectBtn = document.createElement('img');
 
-    projectContainer.classList.add(`project-${title}`)
+    projectContainer.classList.add(`project-${title.replaceAll(' ','')}`)
     projectName.textContent = title;
     projectIcon.src = 'icons/reorder-horizontal.svg';
     deleteProjectBtn.src = 'icons/delete-icon.svg';
@@ -188,7 +188,7 @@ export const addTaskToPage = ({title, description, dueDate,priority,important,co
     
     mainContainer.appendChild(taskContainer)
     mainContainer.appendChild(detailsContainer)
-    mainContainer.classList.add(`task-${title}`)
+    mainContainer.classList.add(`task-${title.replaceAll(' ','')}`)
     detailsContainer.classList.add('collapse');
     return mainContainer;
 }
@@ -224,7 +224,8 @@ const showEditForm = (title,description,dueDate,priority) => {
         }
         editTaskDialog.close();
         // clearTaskList();
-        displayCurrentSection(currentSection, document.querySelector(`#${currentSection.replace(' ',"")}`) ?? document.querySelector(`.project-${currentSection}`));
+        console.log(currentSection.replaceAll(' ',""))
+        displayCurrentSection(currentSection, document.querySelector(`#${currentSection.replaceAll(' ',"")}`) ?? document.querySelector(`.project-${currentSection.replaceAll(' ','')}`));
     })
 }
 
